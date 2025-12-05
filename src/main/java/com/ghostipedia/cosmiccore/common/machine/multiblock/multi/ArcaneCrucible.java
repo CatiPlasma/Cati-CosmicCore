@@ -4,7 +4,7 @@ import com.ghostipedia.cosmiccore.CosmicCore;
 import com.ghostipedia.cosmiccore.common.data.CosmicBlocks;
 import com.ghostipedia.cosmiccore.gtbridge.CosmicRecipeTypes;
 
-import com.ghostipedia.cosmiccore.utils.TooltipUtil;
+import com.ghostipedia.cosmiccore.utils.CosmicTooltipBuilder;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
@@ -49,7 +49,6 @@ public class ArcaneCrucible {
                     .build())
             .workableCasingModel(CosmicCore.id("block/casings/solid/soul_stained_steel_aluminium_plated_casing"),
                     CosmicCore.id("block/multiblock/dawnforge"))
-            .tooltips(TooltipUtil.genTranslationKey(2, TooltipUtil.Category.MULTI, "arcane_crucible", "imperfect"))
             .register();
 
     public static void init() {}

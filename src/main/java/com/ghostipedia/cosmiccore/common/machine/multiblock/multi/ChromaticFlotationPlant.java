@@ -58,7 +58,8 @@ public class ChromaticFlotationPlant {
                             .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1)
                                     .setMaxGlobalLimited(2))
                             .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setExactLimit(1))
-                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setExactLimit(1)))
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setExactLimit(1))
+                            .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1)))
                     .build())
             .workableCasingModel(GTCEu.id("block/casings/gcym/watertight_casing"),
                     GTCEu.id("block/multiblock/generator/large_gas_turbine"))
