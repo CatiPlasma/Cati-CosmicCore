@@ -1,12 +1,40 @@
 package com.ghostipedia.cosmiccore.utils;
 
+import com.ghostipedia.cosmiccore.CosmicCore;
+import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
+import com.gregtechceu.gtceu.utils.GTUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.apache.commons.lang3.StringUtils.capitalize;
+
+/**
+ * This makes Cosmic's custom multi-structure tooltips content more comprehensive and easier to add.<br>
+ * Info is divided into 3 main categories: Head info, Tail info and Inner info.<br>
+ * Head and Tail info will always display, while inner info will only display when Shift is pressed.<br>
+ * Inner info will display between Introduction and Hatch Info.<br>
+ * <br>
+ * Head info order:<br>
+ * MachineType, will be automatically generated if not set manually<br>
+ * Introduction or Lore, Optional<br>
+ * <br>
+ * Tail info order:<br>
+ * Laser Hatch and Cosmic Hatch info<br>
+ * Authors, divided into two parts: code and art<br>
+ * Overclock Type, will be automatically generated if left blank<br>
+ * <br>
+ * Inner info order:<br>
+ * LongSeparator, used to separate outer and inner, automatically generate<br>
+ * More info, can use ShortSeparator to make content more hierarchical<br>
+ * LongSeparator, used to separate outer and inner,  automatically generate<br>
+ */
 public class CosmicTooltipBuilder {
     private static final Component PERFECT = Component.translatable("frontiers.tooltip.overclock_type.perfect").withStyle(ChatFormatting.WHITE, ChatFormatting.BOLD);
     private static final Component NON_PERFECT = Component.translatable("frontiers.tooltip.overclock_type.non_perfect").withStyle(ChatFormatting.WHITE, ChatFormatting.BOLD);
@@ -32,19 +60,40 @@ public class CosmicTooltipBuilder {
                 .withStyle(ChatFormatting.WHITE, ChatFormatting.BOLD);
     }
 
-    private List<Component> outLines;
-    private List<Component> shiftLines;
+    private List<Component> headLines;
+    private List<Component> innerLines;
+    private List<Component> tailLines;
+    private short headRows = 0;
+    private short innerRows = 0;
+    private short tailRows = 0;
 
+    private MultiblockMachineDefinition machineDefinition;
+    private MultiblockMachineBuilder machineBuilder;
     private String machineType;
-    private int outRows = 0;
-    private int shiftRows = 0;
+    private String machineID;
 
-    CosmicTooltipBuilder(String machineType) {
-        this.outLines = new LinkedList<>();
-        this.shiftLines = new LinkedList<>();
-        this.machineType = machineType.replace(" ", "_").toLowerCase();
-        this.outLines.add(MachineType(this.machineType));
-        this.shiftLines.add(SEPARATOR);
+    private LinkedList<String> codeAuthors = null;
+    private LinkedList<String> artAuthors = null;
+    private LinkedList<String> uiAuthors = null;
+
+    public CosmicTooltipBuilder() {
+        this.headLines = new LinkedList<>();
+        this.innerLines = new LinkedList<>();
+        this.tailLines = new LinkedList<>();
+    }
+
+    public CosmicTooltipBuilder setMultiDefinition(@NotNull MultiblockMachineDefinition machineDefinition) {
+        this.machineDefinition = machineDefinition;
+        this.machineID = this.machineDefinition.getName();
+        this.machineType = capitalize(machineID.replace('_', ' '));
+        CosmicCore.LOGGER.info("MultiBlockName is: "+this.machineType);
+        return this;
+    }
+
+    public CosmicTooltipBuilder setMultiBuilder(@NotNull MultiblockMachineBuilder machineBuilder) {
+        this.machineBuilder = machineBuilder;
+        this.machineType = capitalize(this.machineBuilder.langValue());
+        return this;
     }
 
     /**
@@ -53,8 +102,9 @@ public class CosmicTooltipBuilder {
      * @param style ChatFormatting Style.
      * @param isShift Boolean that control whether the row will be added into Shift display.
      */
-    public void addInfo(boolean isShift, ChatFormatting style) {
-        (isShift?this.shiftLines:this.outLines).add(Component.translatable("frontiers.tooltip."+this.machineType+"."+(outRows++)).withStyle(style));
+    public CosmicTooltipBuilder addInfo(boolean isShift, ChatFormatting style) {
+        (isShift?this.innerLines :this.headLines).add(Component.translatable("frontiers.tooltip."+this.machineType.toLowerCase()+"."+(headRows++)).withStyle(style));
+        return this;
     }
 
     /**
@@ -62,16 +112,18 @@ public class CosmicTooltipBuilder {
      *
      * @param text Do nothing, just increasing code readability.
      */
-    public void addInfo(String text) {
+    public CosmicTooltipBuilder addInfo(String text) {
         addInfo(false, ChatFormatting.WHITE);
+        return this;
     }
 
     /**
      * Add a shift display line to tooltips.
      * @param text Do nothing, just increasing code readability.
      */
-    public void addShiftInfo(String text) {
+    public CosmicTooltipBuilder addShiftInfo(String text) {
         addInfo(true, ChatFormatting.WHITE);
+        return this;
     }
 
     /**
@@ -80,8 +132,9 @@ public class CosmicTooltipBuilder {
      * @param text Do nothing, just increasing code readability.
      * @param style ChatFormatting Style.
      */
-    public void addInfo(String text, ChatFormatting style) {
+    public CosmicTooltipBuilder addInfo(String text, ChatFormatting style) {
         addInfo(false, style);
+        return this;
     }
 
     /**
@@ -89,8 +142,9 @@ public class CosmicTooltipBuilder {
      * @param text Do nothing, just increasing code readability.
      * @param style ChatFormatting Style.
      */
-    public void addShiftInfo(String text, ChatFormatting style) {
+    public CosmicTooltipBuilder addShiftInfo(String text, ChatFormatting style) {
         addInfo(true, style);
+        return this;
     }
 
     /**
@@ -100,7 +154,16 @@ public class CosmicTooltipBuilder {
      * @param isLong  Boolean that control which separator will be added.
      * @param style ChatFormatting Style.
      */
-    public void addSeparator(boolean isShift, boolean isLong, ChatFormatting style) {
-        (isShift?this.shiftLines:this.outLines).add((isLong?SEPARATOR:SEPARATOR_SHORT));
+    public CosmicTooltipBuilder addSeparator(boolean isShift, boolean isLong, ChatFormatting style) {
+        (isShift?this.innerLines :this.headLines).add((isLong?SEPARATOR:SEPARATOR_SHORT));
+        return this;
+    }
+
+    public List<Component> getTooltip() {
+        List<Component> tt = new LinkedList<>();
+        tt.addAll(this.headLines);
+        if (this.innerLines != null && GTUtil.isShiftDown()) tt.addAll(this.innerLines);
+        // tt.addAll(this.tailLines);
+        return tt;
     }
 }

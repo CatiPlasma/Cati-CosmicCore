@@ -274,6 +274,7 @@ public class CosmicMaterials {
 
         Lumium = new Material.Builder(CosmicCore.id("lumium"))
                 .ingot()
+                .formula("PdCSAuSi(FeS2)5(CrAl2O3)Hg3", true)
                 .liquid(new FluidBuilder().temperature(1340))
                 .color(0xf6ff99).secondaryColor(0xff7400).iconSet(MaterialIconSet.SHINY)
                 .flags(GENERATE_BOLT_SCREW, GENERATE_ROUND, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_RING,
@@ -284,6 +285,7 @@ public class CosmicMaterials {
         Signalum = new Material.Builder(CosmicCore.id("signalum"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(1340))
+                .formula("CuAg4CScCu(Si(FeS2)5(CrAl2O3)Hg3)4", true)
                 .color(0xff6b0f).secondaryColor(0xc32e00).iconSet(MaterialIconSet.SHINY)
                 .flags(GENERATE_BOLT_SCREW, GENERATE_ROUND, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_RING,
                         GENERATE_FRAME, GENERATE_SPRING, GENERATE_SPRING_SMALL, GENERATE_FINE_WIRE, GENERATE_DENSE)
@@ -293,6 +295,7 @@ public class CosmicMaterials {
         Enderium = new Material.Builder(CosmicCore.id("enderium"))
                 .ingot()
                 .liquid(new FluidBuilder().temperature(1340))
+                .formula("((BeK4N5)(CS))2Ac2Pt2Rh3", true)
                 .color(0x1f6b62).secondaryColor(0x16455f).iconSet(MaterialIconSet.SHINY)
                 .flags(GENERATE_BOLT_SCREW, GENERATE_ROUND, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_RING,
                         GENERATE_FRAME, GENERATE_SPRING, GENERATE_SPRING_SMALL, GENERATE_FINE_WIRE, GENERATE_DENSE)
