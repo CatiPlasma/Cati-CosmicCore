@@ -515,5 +515,28 @@ public class CosmicLangHandler extends LangHandler {
         provider.add("cosmiccore.multiblock.drone_station_machine.tier.3", "Robust");
         provider.add("cosmiccore.multiblock.drone_station_machine.tier.4", "Rusty");
         provider.add("cosmiccore.multiblock.drone_station_machine.tier.5", "None");
+
+        // Multiblock Tooltips Start
+        // General
+        provider.add("cosmiccore.multiblock.tooltip.machine_type", "§b§lMultiblock Classification:§r %s");
+        provider.add("cosmiccore.multiblock.tooltip.parallel_hatch.vanilla", "§6Accepts GT Parallel Hatches.");
+        provider.add("cosmiccore.multiblock.tooltip.parallel_hatch.cosmic", "§6Accepts Cosmic Parallel Hatches.");
+        provider.add("cosmiccore.multiblock.tooltip.laser", "§6Accepts Laser hatches.");
+        provider.add("cosmiccore.multiblock.tooltip.one_energy_input", "§cOnly accepts ONE Energy hatch!");
+        provider.add("cosmiccore.multiblock.tooltip.overclock_type.prefix", "§fOverclock Type: %s");
+        provider.add("cosmiccore.multiblock.tooltip.overclock_type.perfect", "Perfect");
+        provider.add("cosmiccore.multiblock.tooltip.overclock_type.non_perfect", "Imperfect");
+        provider.add("cosmiccore.multiblock.tooltip.overclock_type.silent", "SILENT");
+        provider.add("cosmiccore.multiblock.tooltip.authors.title", "Credits:");
+        provider.add("cosmiccore.multiblock.tooltip.authors.code.prefix", "§bMajor Code Contributors:");
+        provider.add("cosmiccore.multiblock.tooltip.authors.art.prefix", "§eArt:§r %s");
+        provider.add("cosmiccore.multiblock.tooltip.author.ui.prefix", "§6UI:§r %s");
+        provider.add("cosmiccore.multiblock.tooltip.author.art_ui.prefix", "§6Art & UI:§r %s");
+        provider.add("cosmiccore.multiblock.tooltip.hold_shift", "§6Hold §eShift §6to see more info.");
+        provider.add("cosmiccore.multiblock.tooltip.hold_ctrl", "§6Hold §eCtrl §6to see credit info.");
+
+        // Arcane Crucible
+        provider.add("cosmiccore.multiblock.tooltip.machine_type.arcane_crucible", "Arcane Crucible");
+        // Multiblock Tooltips End
     }
 }

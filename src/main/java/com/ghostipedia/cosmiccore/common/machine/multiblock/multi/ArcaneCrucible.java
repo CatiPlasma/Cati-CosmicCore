@@ -3,8 +3,10 @@ package com.ghostipedia.cosmiccore.common.machine.multiblock.multi;
 import com.ghostipedia.cosmiccore.CosmicCore;
 import com.ghostipedia.cosmiccore.common.data.CosmicBlocks;
 import com.ghostipedia.cosmiccore.gtbridge.CosmicRecipeTypes;
-
 import com.ghostipedia.cosmiccore.utils.CosmicTooltipBuilder;
+import com.ghostipedia.cosmiccore.utils.CosmicTooltipBuilder.ContributeAspect;
+
+import com.ghostipedia.cosmiccore.utils.CosmicTooltipBuilder.OverclockType;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
@@ -13,9 +15,15 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 
+import net.minecraft.ChatFormatting;
+
 import static com.ghostipedia.cosmiccore.api.machine.part.CosmicPartAbility.IMPORT_EMBER;
 import static com.ghostipedia.cosmiccore.api.registries.CosmicRegistration.REGISTRATE;
 import static com.ghostipedia.cosmiccore.common.data.CosmicBlocks.SOUL_STAINED_STEEL_ALU_CASING;
+import static com.ghostipedia.cosmiccore.utils.CosmicTooltipBuilder.ParallelInfo.VANILLA;
+import static com.ghostipedia.cosmiccore.utils.CosmicTooltipBuilder.SeparatorType.LONG;
+import static com.ghostipedia.cosmiccore.utils.CosmicTooltipBuilder.SeparatorType.SHORT;
+import static com.ghostipedia.cosmiccore.utils.CosmicTooltipBuilder.TooltipSection.*;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.EXPORT_FLUIDS;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.ELECTRIC_OVERCLOCK;
@@ -52,4 +60,17 @@ public class ArcaneCrucible {
             .register();
 
     public static void init() {}
+
+    public static class ArcaneCrucibleTooltip {
+
+        public final static CosmicTooltipBuilder TT = new CosmicTooltipBuilder(ArcaneCrucible.ARCANE_CRUCIBLE)
+                .setMachineType("Arcane Crucible")
+                .addInnerInfo("aaaaa")
+                .onlyOneEnergyInput()
+                .setOverclockType(OverclockType.NON_PERFECT)
+                .addAuthors("Ghostipedia", ContributeAspect.CODE, ContributeAspect.ART, ContributeAspect.UI)
+                .tooltipFinisher();
+
+        public static void init() {}
+    }
 }

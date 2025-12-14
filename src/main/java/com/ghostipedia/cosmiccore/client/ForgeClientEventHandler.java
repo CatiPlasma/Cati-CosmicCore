@@ -3,11 +3,15 @@ package com.ghostipedia.cosmiccore.client;
 import com.ghostipedia.cosmiccore.CosmicCore;
 import com.ghostipedia.cosmiccore.CosmicUtils;
 import com.ghostipedia.cosmiccore.client.renderer.StructureBoundingBox;
+import com.ghostipedia.cosmiccore.utils.CosmicTooltipBuilder;
+
+import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.ViewportEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -50,6 +54,30 @@ public class ForgeClientEventHandler {
             event.setRed(0.671F);
             event.setGreen(0.792F);
             event.setBlue(0.855F);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onTooltipEvent(ItemTooltipEvent event) {
+        CosmicFluidTooltipAddon.appendFluidTooltip(event.getItemStack(), CosmicFluidTooltipAddon.data);
+
+        if (CosmicTooltipBuilder.getMultiblockMachines() == null) CosmicMultiblockTooltipInit.init();
+        if (CosmicTooltipBuilder.getMultiblockMachines() != null &&
+                CosmicTooltipBuilder.getMultiblockMachines().contains(event.getItemStack().getItem())) {
+            if (GTUtil.isShiftDown() && GTUtil.isCtrlDown()) {
+                event.getToolTip().addAll(1, CosmicTooltipBuilder.getAllMultiblockMachineTooltips().get(event.getItemStack().getItem()));
+            }
+            else if (GTUtil.isShiftDown()) {
+                event.getToolTip().addAll(1, CosmicTooltipBuilder.getDetailedMultiblockMachineTooltips()
+                        .get(event.getItemStack().getItem()));
+            }
+            else if (GTUtil.isCtrlDown()) {
+                event.getToolTip().addAll(1, CosmicTooltipBuilder.getCreditMultiblockMachineTooltips().get(event.getItemStack().getItem()));
+            }
+            else {
+                event.getToolTip().addAll(1,
+                        CosmicTooltipBuilder.getNormalMultiblockMachineTooltips().get(event.getItemStack().getItem()));
+            }
         }
     }
 }
